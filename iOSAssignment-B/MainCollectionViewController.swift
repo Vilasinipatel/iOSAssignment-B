@@ -9,11 +9,12 @@
 import UIKit
 import Alamofire
 import SwiftyJSON
-
-class MainCollectionViewController: UICollectionViewController {
+import Kingfisher
+class MainCollectionViewController: UICollectionViewController , UICollectionViewDelegateFlowLayout{
     
     let reusableCellId = "CollectionViewCell"
-    fileprivate let sectionInsets = UIEdgeInsets(top: 50.0, left: 20.0, bottom: 50.0, right: 20.0)
+    fileprivate let sectionInsets = UIEdgeInsets(top: 0.0, left: 20.0, bottom: 50.0, right: 20.0)
+    var contentData = [JsonContentModel]()
     
     override func viewDidLoad() {
         
@@ -31,36 +32,51 @@ class MainCollectionViewController: UICollectionViewController {
         
     }
     
+    
     func FetchTheContentDetail(){
         Alamofire.request(Constants.JSONURL).responseString(completionHandler: {(response) in
             switch response.result{
             case.success(let value):
-              let jsonContent = JSON(value)
-                print(jsonContent)
+                let jsonContent = JSON.init(parseJSON: value)
+                for array in jsonContent["rows"].arrayValue{
+                    self.contentData.append(JsonContentModel.init(json: array))
+                }
+                print(self.contentData[0])
+                DispatchQueue.main.async {
+                    self.collectionView?.reloadData()
+                }
             case.failure(let error):
                 print(error.localizedDescription)
             }
         })
     }
     override func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        let collectionCell = collectionView.dequeueReusableCell(withReuseIdentifier:reusableCellId, for: indexPath)
+        let collectionCell = collectionView.dequeueReusableCell(withReuseIdentifier:reusableCellId, for: indexPath) as! CustomCollectionViewCell
+        collectionCell.itemName.text =  contentData[indexPath.row].title
+        collectionCell.itemDescription.text = contentData[indexPath.row].description
+        collectionCell.thumbNailImageView.kf.setImage(with: URL(string: contentData[indexPath.row].imageHref), placeholder:nil, options: nil, progressBlock: nil, completionHandler: nil)
         return collectionCell
     }
     
     override func collectionView(_ collectionView: UICollectionView,
                                  numberOfItemsInSection section: Int) -> Int {
-        return 1
+        return contentData.count
     }
     func collectionView(_ collectionView: UICollectionView,
                         layout collectionViewLayout: UICollectionViewLayout,
                         insetForSectionAt section: Int) -> UIEdgeInsets {
         return sectionInsets
     }
-
+    
     func collectionView(_ collectionView: UICollectionView,
                         layout collectionViewLayout: UICollectionViewLayout,
                         sizeForItemAt indexPath: IndexPath) -> CGSize {
-        return CGSize(width: view.frame.width, height: 30)
+        
+        return CGSize(width: view.frame.width, height: 200)
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumLineSpacingForSectionAt section: Int) -> CGFloat {
+        return 0
     }
     
 }
