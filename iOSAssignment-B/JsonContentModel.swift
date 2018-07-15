@@ -15,9 +15,9 @@ struct JsonContentModel{
     var imageHref: String = ""
     
     init(json: JSON) {
-        title = json["title"].stringValue
-        description = json["description"].stringValue
-        imageHref = json["imageHref"].stringValue
+        title = json[Constants.titleKey].stringValue
+        description = json[Constants.itemDescKey].stringValue
+        imageHref = json[Constants.itemImageRef].stringValue
     }
     
 }

@@ -11,37 +11,41 @@ import Alamofire
 import SwiftyJSON
 import Kingfisher
 class MainCollectionViewController: UICollectionViewController , UICollectionViewDelegateFlowLayout{
-    
-    let reusableCellId = "CollectionViewCell"
-    fileprivate let sectionInsets = UIEdgeInsets(top: 0.0, left: 20.0, bottom: 50.0, right: 20.0)
+    fileprivate let sectionInsets = UIEdgeInsets(top: 0.0, left: 0.0, bottom: 0.0, right: 0.0)
     var contentData = [JsonContentModel]()
-    
     override func viewDidLoad() {
-        
         super.viewDidLoad()
+        collectionView?.refreshControl = refreshCollectionController
         collectionView?.backgroundColor = UIColor.red
-        collectionView?.register(CustomCollectionViewCell.self, forCellWithReuseIdentifier:reusableCellId)
-        
-        
-        // Do any additional setup after loading the view, typically from a nib.
+        collectionView?.register(CustomCollectionViewCell.self, forCellWithReuseIdentifier:Constants.collectionViewReusableCellId)
     }
-    
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         FetchTheContentDetail()
-        
+    }
+    lazy var refreshCollectionController: UIRefreshControl = {
+        let  refreshController =  UIRefreshControl()
+        refreshController.tintColor = UIColor.black
+        refreshController.addTarget(self, action: #selector(refreshContentData), for: .valueChanged)
+        return refreshController
+    }()
+    
+    @objc func refreshContentData(){
+        FetchTheContentDetail()
+        refreshCollectionController.endRefreshing()
     }
     
-    
     func FetchTheContentDetail(){
-        Alamofire.request(Constants.JSONURL).responseString(completionHandler: {(response) in
+        Alamofire.request(Constants.jsonUrl).responseString(completionHandler: {(response) in
             switch response.result{
             case.success(let value):
                 let jsonContent = JSON.init(parseJSON: value)
-                for array in jsonContent["rows"].arrayValue{
+                let topicTitle = jsonContent[Constants.titleKey]
+                self.navigationItem.title = topicTitle.stringValue
+                self.contentData.removeAll()
+                for array in jsonContent[Constants.rowsContentKey].arrayValue{
                     self.contentData.append(JsonContentModel.init(json: array))
                 }
-                print(self.contentData[0])
                 DispatchQueue.main.async {
                     self.collectionView?.reloadData()
                 }
@@ -51,10 +55,10 @@ class MainCollectionViewController: UICollectionViewController , UICollectionVie
         })
     }
     override func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        let collectionCell = collectionView.dequeueReusableCell(withReuseIdentifier:reusableCellId, for: indexPath) as! CustomCollectionViewCell
+        let collectionCell = collectionView.dequeueReusableCell(withReuseIdentifier:Constants.collectionViewReusableCellId, for: indexPath) as! CustomCollectionViewCell
         collectionCell.itemName.text =  contentData[indexPath.row].title
         collectionCell.itemDescription.text = contentData[indexPath.row].description
-        collectionCell.thumbNailImageView.kf.setImage(with: URL(string: contentData[indexPath.row].imageHref), placeholder:nil, options: nil, progressBlock: nil, completionHandler: nil)
+        collectionCell.thumbNailImageView.kf.setImage(with: URL(string: contentData[indexPath.row].imageHref), placeholder:Constants.imagePlaceHolder as? Placeholder, options: nil, progressBlock: nil, completionHandler: nil)
         return collectionCell
     }
     
@@ -71,8 +75,11 @@ class MainCollectionViewController: UICollectionViewController , UICollectionVie
     func collectionView(_ collectionView: UICollectionView,
                         layout collectionViewLayout: UICollectionViewLayout,
                         sizeForItemAt indexPath: IndexPath) -> CGSize {
-        
-        return CGSize(width: view.frame.width, height: 200)
+        let approximateWidthOfItemDesc = view.frame.width-20;
+        let size = CGSize(width: approximateWidthOfItemDesc, height: 1000)
+        let attributes = [NSAttributedStringKey.font: UIFont.systemFont(ofSize: 14)]
+        let estimatedItemDescFrame = NSString(string: contentData[indexPath.row].description).boundingRect(with: size, options: .usesLineFragmentOrigin, attributes: attributes, context: nil)
+        return CGSize(width: view.frame.width, height: estimatedItemDescFrame.height + 170)
     }
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumLineSpacingForSectionAt section: Int) -> CGFloat {
