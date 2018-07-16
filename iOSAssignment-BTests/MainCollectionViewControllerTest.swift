@@ -8,18 +8,17 @@
 
 import XCTest
 import Alamofire
-import SwiftyJSON
 class MainCollectionViewControllerTest: XCTestCase {
     override func setUp() {
         super.setUp()
         // Put setup code here. This method is called before the invocation of each test method in the class.
     }
-    func FetchTheContentDetail_Test() {
+    
+    func test_FetchTheContentDetail() {
         let promise = expectation(description: "Response received successfully")
             Alamofire.request(Constants.jsonUrl).responseString(completionHandler: {(response) in
                 switch response.result{
-                case.success(let contentValue):
-                    self.CollectionJsonContentFakeBundleParse(contentValue: contentValue)
+                case.success( _):
                      promise.fulfill()
                 case.failure(let error):
                 XCTFail("Response error: \(error.localizedDescription)")
@@ -28,18 +27,10 @@ class MainCollectionViewControllerTest: XCTestCase {
             })
         waitForExpectations(timeout: 5, handler: nil)
     }
-  
-    func CollectionJsonContentFakeBundleParse(contentValue: String){
-        var ContentData = [JsonContentModel]();
-        let jsonContent = JSON.init(parseJSON: contentValue)
-        for array in jsonContent[Constants.rowsContentKey].arrayValue{
-            ContentData.append(JsonContentModel.init(json: array))
-        }
-        XCTAssertEqual(ContentData.count, 0, "Didn't parse items from  response")
-            }
-    func GetImagesDownloaded(_ imageUrl: String){
+    
+    func test_GetImagesDownloaded(){
         let promise = expectation(description: "Image data received successfully")
-        Alamofire.request(imageUrl)
+        Alamofire.request(Constants.imageUrl)
             .validate().responseData(completionHandler:{data in
                 switch data.result {
                 case .success:
@@ -50,6 +41,8 @@ class MainCollectionViewControllerTest: XCTestCase {
                     break
                 }
             })
+        waitForExpectations(timeout: 5, handler: nil)
+
     }
     
     override func tearDown() {
