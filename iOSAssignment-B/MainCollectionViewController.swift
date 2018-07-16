@@ -12,6 +12,8 @@ import SwiftyJSON
 class MainCollectionViewController: UICollectionViewController , UICollectionViewDelegateFlowLayout{
     fileprivate let sectionInsets = UIEdgeInsets(top: 0.0, left: 0.0, bottom: 0.0, right: 0.0)
     var contentData = [JsonContentModel]()
+    var inValidImagePresent = false as Bool
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         collectionView?.refreshControl = refreshCollectionController
@@ -35,18 +37,22 @@ class MainCollectionViewController: UICollectionViewController , UICollectionVie
     }
     
     func FetchTheContentDetail(){
-        if Reachability.isConnectedToNetwork(){
+        if (Reachability.isConnectedToNetwork()){
         Alamofire.request(Constants.jsonUrl).responseString(completionHandler: {(response) in
             switch response.result{
             case.success(let value):
                 let jsonContent =  JSON.init(parseJSON: value)
                 let topicTitle = jsonContent[Constants.titleKey]
-                self.navigationItem.title = topicTitle.stringValue
                 self.contentData.removeAll()
-                for array in jsonContent[Constants.rowsContentKey].arrayValue{
-                    self.contentData.append(JsonContentModel.init(json: array))
+                self.inValidImagePresent = false;
+                for itemContent in jsonContent[Constants.rowsContentKey].arrayValue{
+                    let item = JsonContentModel.init(json: itemContent) as JsonContentModel!
+                    if(!(item?.title.isEmpty)!){
+                        self.contentData.append(item!)
+                    }
                 }
                 DispatchQueue.main.async {
+                    self.navigationItem.title = topicTitle.stringValue
                     self.collectionView?.reloadData()
                 }
             case.failure(let error):
@@ -64,9 +70,21 @@ class MainCollectionViewController: UICollectionViewController , UICollectionVie
         self.present(alert, animated: true, completion: nil)
     }
     
+     func isValidUrl (urlString: String?) -> Bool {
+        guard let urlString = urlString else {return false}
+        guard let url = NSURL(string: urlString) else {return false}
+        if !UIApplication.shared.canOpenURL(url as URL) {return false}
+       let regEx = "((https|http)://)((\\w|-)+)(([.]|[/])((\\w|-)+))+"
+        let predicate = NSPredicate(format:"SELF MATCHES %@", argumentArray:[regEx])
+        return predicate.evaluate(with: urlString)
+    }
+    
     func GetImageData(parameters: String, completionHandler: @escaping (Data?, NSError?) -> ()) {
         GetImagesDownloaded(parameters,completionHandler: completionHandler)
     }
+    
+   
+    
     
     func GetImagesDownloaded(_ imageUrl: String,completionHandler: @escaping (Data?, NSError?) -> ()){
         Alamofire.request(imageUrl)
@@ -77,7 +95,6 @@ class MainCollectionViewController: UICollectionViewController , UICollectionVie
                     break
                 case .failure(let error):
                     completionHandler(nil, error as NSError)
-
                     print(error.localizedDescription)
                     break
                 }
@@ -88,14 +105,19 @@ class MainCollectionViewController: UICollectionViewController , UICollectionVie
     override func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let collectionCell = collectionView.dequeueReusableCell(withReuseIdentifier:Constants.collectionViewReusableCellId, for: indexPath) as! CustomCollectionViewCell
         collectionCell.itemName.text =  contentData[indexPath.row].title
-        collectionCell.itemDescription.text = contentData[indexPath.row].description
+            collectionCell.itemDescription.text = contentData[indexPath.row].description
         collectionCell.thumbNailImageView.image = #imageLiteral(resourceName: "PlaceHolder")
         GetImageData(parameters: contentData[indexPath.row].imageHref) { responseObject, error in
-            if((responseObject) != nil){
-                collectionCell.thumbNailImageView.image = UIImage(data: responseObject!)
-            }
-        }
-        return collectionCell
+                    if((responseObject) != nil){
+                        collectionCell.thumbNailImageView.image = UIImage(data: responseObject!)
+                    }else{
+                        if(!self.inValidImagePresent){
+                        self.ShowAlertDialog(Constants.imageInvalidUrlMessageTitle, message: Constants.imageInvalidUrlMessage)
+                        self.inValidImagePresent = true
+                        }
+                    }
+                }
+            return collectionCell
     }
     
     override func collectionView(_ collectionView: UICollectionView,
@@ -111,11 +133,13 @@ class MainCollectionViewController: UICollectionViewController , UICollectionVie
     func collectionView(_ collectionView: UICollectionView,
                         layout collectionViewLayout: UICollectionViewLayout,
                         sizeForItemAt indexPath: IndexPath) -> CGSize {
-        let approximateWidthOfItemDesc = view.frame.width-20;
+        let approximateViewWidth = view.frame.width;
+        let approximateHeightImages = 200.0 as CGFloat
+        let approximateWidthOfItemDesc = approximateViewWidth-20;
         let size = CGSize(width: approximateWidthOfItemDesc, height: 1000)
-        let attributes = [NSAttributedStringKey.font: UIFont.systemFont(ofSize: 14)]
+        let attributes = [NSAttributedStringKey.font: UIFont.descFont]
         let estimatedItemDescFrame = NSString(string: contentData[indexPath.row].description).boundingRect(with: size, options: .usesLineFragmentOrigin, attributes: attributes, context: nil)
-        return CGSize(width: view.frame.width, height: estimatedItemDescFrame.height + 220)
+    return CGSize(width: approximateViewWidth, height: estimatedItemDescFrame.height + approximateHeightImages + 70)
       
     }
     

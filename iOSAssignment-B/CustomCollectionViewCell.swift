@@ -50,18 +50,17 @@ class CustomCollectionViewCell: UICollectionViewCell {
         addSubview(itemDescription)
         addSubview(separatorLineView)
         addConstraintsWithTheFormat(format:"H:|-10-[v0]-10-|", views: itemName)
-        addConstraintsWithTheFormat(format:"H:|-10-[v0(150)]-10-|", views:thumbNailImageView)
+        addConstraintsWithTheFormat(format:"H:|-10-[v0(200)]-10-|", views:thumbNailImageView)
         addConstraintsWithTheFormat(format:"H:|-10-[v0]-10-|", views:itemDescription)
         addConstraintsWithTheFormat(format:"H:|[v0]|", views:separatorLineView)
-        addConstraintsWithTheFormat(format:"V:|-10-[v0(20)]-10-[v1(150)]-10-[v2]-10-[v3(1)]|", views: itemName,thumbNailImageView,itemDescription,separatorLineView)
+        addConstraintsWithTheFormat(format:"V:|-10-[v0(20)]-10-[v1(200)]-10-[v2]-10-[v3(1)]|", views: itemName,thumbNailImageView,itemDescription,separatorLineView)
         
     }
 }
 extension UIView{
     func addConstraintsWithTheFormat(format: String,views: UIView...) {
         var viewDict = [String: UIView]()
-        for (index,view) in views.enumerated()
-        {
+        for (index,view) in views.enumerated(){
             let key = "v\(index)"
             viewDict[key] = view
         }

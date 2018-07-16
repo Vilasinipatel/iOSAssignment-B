@@ -13,6 +13,8 @@ class Constants {
     static let imagePlaceHolder = "PlaceHolder"
     static let networkErrorMessage = "Make sure your device is connected to the internet."
     static let networkErrorMessageTitle = "No Internet Connection"
+    static let imageInvalidUrlMessage = "Due to invalid images path,Few images are not getting display."
+    static let imageInvalidUrlMessageTitle = "Message"
     static let collectionViewReusableCellId = "collectionResuableCell"
     static let okOptionText = "Ok"
     static let titleKey = "title"
