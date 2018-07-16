@@ -17,7 +17,7 @@ class CustomCollectionViewCell: UICollectionViewCell {
     }
     let itemName: UILabel = {
         let itemNameDetail = UILabel()
-        itemNameDetail.font = UIFont.systemFont(ofSize: 14, weight: UIFont.Weight.bold)
+        itemNameDetail.font = UIFont.titleFont
         itemNameDetail.backgroundColor = UIColor.white
         itemNameDetail.translatesAutoresizingMaskIntoConstraints = false
         return itemNameDetail
@@ -31,7 +31,7 @@ class CustomCollectionViewCell: UICollectionViewCell {
     
     let itemDescription: UILabel = {
         let itemDesc  = UILabel()
-        itemDesc.font = UIFont.systemFont(ofSize: 14)
+        itemDesc.font = UIFont.descFont
         itemDesc.numberOfLines = 0
         itemDesc.translatesAutoresizingMaskIntoConstraints = false
         return itemDesc
@@ -50,10 +50,10 @@ class CustomCollectionViewCell: UICollectionViewCell {
         addSubview(itemDescription)
         addSubview(separatorLineView)
         addConstraintsWithTheFormat(format:"H:|-10-[v0]-10-|", views: itemName)
-        addConstraintsWithTheFormat(format:"H:|-10-[v0(100)]", views:thumbNailImageView)
+        addConstraintsWithTheFormat(format:"H:|-10-[v0(150)]-10-|", views:thumbNailImageView)
         addConstraintsWithTheFormat(format:"H:|-10-[v0]-10-|", views:itemDescription)
         addConstraintsWithTheFormat(format:"H:|[v0]|", views:separatorLineView)
-        addConstraintsWithTheFormat(format:"V:|-10-[v0(20)]-10-[v1(100)]-10-[v2]-10-[v3(1)]|", views: itemName,thumbNailImageView,itemDescription,separatorLineView)
+        addConstraintsWithTheFormat(format:"V:|-10-[v0(20)]-10-[v1(150)]-10-[v2]-10-[v3(1)]|", views: itemName,thumbNailImageView,itemDescription,separatorLineView)
         
     }
 }
