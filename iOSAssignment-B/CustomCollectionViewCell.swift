@@ -10,7 +10,7 @@ import UIKit
 class CustomCollectionViewCell: UICollectionViewCell {
     override init(frame: CGRect) {
         super.init(frame: frame)
-        SetUpViews()
+        setUpViews()
     }
     required init?(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
@@ -43,7 +43,7 @@ class CustomCollectionViewCell: UICollectionViewCell {
         separatorLine.translatesAutoresizingMaskIntoConstraints = false
         return separatorLine
     }()
-    func SetUpViews(){
+    func setUpViews(){
         backgroundColor = UIColor.white
         addSubview(itemName)
         addSubview(thumbNailImageView)
@@ -54,7 +54,6 @@ class CustomCollectionViewCell: UICollectionViewCell {
         addConstraintsWithTheFormat(format:"H:|-10-[v0]-10-|", views:itemDescription)
         addConstraintsWithTheFormat(format:"H:|[v0]|", views:separatorLineView)
         addConstraintsWithTheFormat(format:"V:|-10-[v0(20)]-10-[v1(200)]-10-[v2]-10-[v3(1)]|", views: itemName,thumbNailImageView,itemDescription,separatorLineView)
-        
     }
 }
 extension UIView{

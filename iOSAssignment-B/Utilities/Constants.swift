@@ -21,4 +21,6 @@ class Constants {
     static let itemDescKey = "description"
     static let itemImageRef = "imageHref"
     static let rowsContentKey = "rows"
+    static let urlRegex = "((https|http)://)((\\w|-)+)(([.]|[/])((\\w|-)+))+"
+    static let errorTitle = "Error"
 }
