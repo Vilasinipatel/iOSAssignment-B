@@ -43,6 +43,8 @@ class CustomCollectionViewCell: UICollectionViewCell {
         separatorLine.translatesAutoresizingMaskIntoConstraints = false
         return separatorLine
     }()
+    
+    //MARK: - SETUP ALL VIEWS WITH VALID CONSTRAINT IN UICOLLECTIONVIEWCELL
     func setUpViews(){
         backgroundColor = UIColor.white
         addSubview(itemName)
@@ -50,13 +52,16 @@ class CustomCollectionViewCell: UICollectionViewCell {
         addSubview(itemDescription)
         addSubview(separatorLineView)
         addConstraintsWithTheFormat(format:"H:|-10-[v0]-10-|", views: itemName)
-        addConstraintsWithTheFormat(format:"H:|-10-[v0(200)]-10-|", views:thumbNailImageView)
+        addConstraintsWithTheFormat(format:"H:|-10-[v0(370)]-10-|", views:thumbNailImageView)
         addConstraintsWithTheFormat(format:"H:|-10-[v0]-10-|", views:itemDescription)
-        addConstraintsWithTheFormat(format:"H:|[v0]|", views:separatorLineView)
-        addConstraintsWithTheFormat(format:"V:|-10-[v0(20)]-10-[v1(200)]-10-[v2]-10-[v3(1)]|", views: itemName,thumbNailImageView,itemDescription,separatorLineView)
+       addConstraintsWithTheFormat(format:"H:|[v0]|", views:separatorLineView)
+        addConstraintsWithTheFormat(format:"V:|-10-[v0(20)]-10-[v1(370)]-10-[v2]-10-[v3(1)]|", views: itemName,thumbNailImageView,itemDescription,separatorLineView)
     }
 }
+
+
 extension UIView{
+    //MARK:ADD CONSTRAINTS WITH FORMAT IN UICOLLECTIONVIEWCELL
     func addConstraintsWithTheFormat(format: String,views: UIView...) {
         var viewDict = [String: UIView]()
         for (index,view) in views.enumerated(){
