@@ -23,13 +23,13 @@
 		C56D7D5020FC454B00EC5286 /* MainCollectionViewControllerTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = C56D7D4F20FC454B00EC5286 /* MainCollectionViewControllerTest.swift */; };
 		C56D7D5520FC46C900EC5286 /* Constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = C56D7D5220FC46C900EC5286 /* Constants.swift */; };
 		C56D7D5620FC46C900EC5286 /* JsonContent.json in Resources */ = {isa = PBXBuildFile; fileRef = C56D7D5320FC46C900EC5286 /* JsonContent.json */; };
-		C56D7D5720FC46C900EC5286 /* Reachability.swift in Sources */ = {isa = PBXBuildFile; fileRef = C56D7D5420FC46C900EC5286 /* Reachability.swift */; };
 		C56D7D5A20FC512000EC5286 /* JsonContentModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = C56D7D5920FC512000EC5286 /* JsonContentModel.swift */; };
 		C56D7D5D20FC512E00EC5286 /* JsonContentModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = C56D7D5C20FC512E00EC5286 /* JsonContentModel.swift */; };
 		C56D7D7220FC536A00EC5286 /* Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = C56D7D7020FC536A00EC5286 /* Info.plist */; };
 		C56D7D7320FC536A00EC5286 /* iOSAssignment_BUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = C56D7D7120FC536A00EC5286 /* iOSAssignment_BUITests.swift */; };
 		C56D7D7520FC598B00EC5286 /* Alamofire.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C56D7D3920FAFF4100EC5286 /* Alamofire.framework */; };
 		C56D7D7620FC598B00EC5286 /* SwiftyJSON.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C56D7D3A20FAFF4200EC5286 /* SwiftyJSON.framework */; };
+		C5CC35842104BE5700892E44 /* Services.swift in Sources */ = {isa = PBXBuildFile; fileRef = C5CC35832104BE5700892E44 /* Services.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -84,11 +84,11 @@
 		C56D7D4F20FC454B00EC5286 /* MainCollectionViewControllerTest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainCollectionViewControllerTest.swift; sourceTree = "<group>"; };
 		C56D7D5220FC46C900EC5286 /* Constants.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Constants.swift; sourceTree = "<group>"; };
 		C56D7D5320FC46C900EC5286 /* JsonContent.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = JsonContent.json; sourceTree = "<group>"; };
-		C56D7D5420FC46C900EC5286 /* Reachability.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Reachability.swift; sourceTree = "<group>"; };
 		C56D7D5920FC512000EC5286 /* JsonContentModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = JsonContentModel.swift; sourceTree = "<group>"; };
 		C56D7D5C20FC512E00EC5286 /* JsonContentModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = JsonContentModel.swift; sourceTree = "<group>"; };
 		C56D7D7020FC536A00EC5286 /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		C56D7D7120FC536A00EC5286 /* iOSAssignment_BUITests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = iOSAssignment_BUITests.swift; sourceTree = "<group>"; };
+		C5CC35832104BE5700892E44 /* Services.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Services.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -154,6 +154,7 @@
 				C509A1FD20F9D32A00D4BE87 /* Assets.xcassets */,
 				C509A1FF20F9D32A00D4BE87 /* LaunchScreen.storyboard */,
 				C509A20220F9D32A00D4BE87 /* Info.plist */,
+				C5CC35832104BE5700892E44 /* Services.swift */,
 			);
 			path = "iOSAssignment-B";
 			sourceTree = "<group>";
@@ -185,7 +186,6 @@
 			isa = PBXGroup;
 			children = (
 				C56D7D5220FC46C900EC5286 /* Constants.swift */,
-				C56D7D5420FC46C900EC5286 /* Reachability.swift */,
 			);
 			path = Utilities;
 			sourceTree = "<group>";
@@ -363,6 +363,7 @@
 				C56D7D4A20FC3AD000EC5286 /* FontStyles.swift in Sources */,
 				C56D7D4820FC153300EC5286 /* Reachability.swift in Sources */,
 				C56D7D5A20FC512000EC5286 /* JsonContentModel.swift in Sources */,
+				C5CC35842104BE5700892E44 /* Services.swift in Sources */,
 				C56D7D3620F9EC5900EC5286 /* Constants.swift in Sources */,
 				C56D7D3820F9F9D000EC5286 /* CustomCollectionViewCell.swift in Sources */,
 			);
@@ -376,7 +377,6 @@
 				C56D7D7320FC536A00EC5286 /* iOSAssignment_BUITests.swift in Sources */,
 				C56D7D5020FC454B00EC5286 /* MainCollectionViewControllerTest.swift in Sources */,
 				C56D7D5D20FC512E00EC5286 /* JsonContentModel.swift in Sources */,
-				C56D7D5720FC46C900EC5286 /* Reachability.swift in Sources */,
 				C56D7D5520FC46C900EC5286 /* Constants.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
