@@ -22,9 +22,7 @@
 		C56D7D4A20FC3AD000EC5286 /* FontStyles.swift in Sources */ = {isa = PBXBuildFile; fileRef = C56D7D4920FC3AD000EC5286 /* FontStyles.swift */; };
 		C56D7D5020FC454B00EC5286 /* MainCollectionViewControllerTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = C56D7D4F20FC454B00EC5286 /* MainCollectionViewControllerTest.swift */; };
 		C56D7D5520FC46C900EC5286 /* Constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = C56D7D5220FC46C900EC5286 /* Constants.swift */; };
-		C56D7D5620FC46C900EC5286 /* JsonContent.json in Resources */ = {isa = PBXBuildFile; fileRef = C56D7D5320FC46C900EC5286 /* JsonContent.json */; };
 		C56D7D5A20FC512000EC5286 /* JsonContentModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = C56D7D5920FC512000EC5286 /* JsonContentModel.swift */; };
-		C56D7D5D20FC512E00EC5286 /* JsonContentModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = C56D7D5C20FC512E00EC5286 /* JsonContentModel.swift */; };
 		C56D7D7220FC536A00EC5286 /* Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = C56D7D7020FC536A00EC5286 /* Info.plist */; };
 		C56D7D7320FC536A00EC5286 /* iOSAssignment_BUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = C56D7D7120FC536A00EC5286 /* iOSAssignment_BUITests.swift */; };
 		C56D7D7520FC598B00EC5286 /* Alamofire.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C56D7D3920FAFF4100EC5286 /* Alamofire.framework */; };
@@ -83,9 +81,7 @@
 		C56D7D4920FC3AD000EC5286 /* FontStyles.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FontStyles.swift; sourceTree = "<group>"; };
 		C56D7D4F20FC454B00EC5286 /* MainCollectionViewControllerTest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainCollectionViewControllerTest.swift; sourceTree = "<group>"; };
 		C56D7D5220FC46C900EC5286 /* Constants.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Constants.swift; sourceTree = "<group>"; };
-		C56D7D5320FC46C900EC5286 /* JsonContent.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = JsonContent.json; sourceTree = "<group>"; };
 		C56D7D5920FC512000EC5286 /* JsonContentModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = JsonContentModel.swift; sourceTree = "<group>"; };
-		C56D7D5C20FC512E00EC5286 /* JsonContentModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = JsonContentModel.swift; sourceTree = "<group>"; };
 		C56D7D7020FC536A00EC5286 /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		C56D7D7120FC536A00EC5286 /* iOSAssignment_BUITests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = iOSAssignment_BUITests.swift; sourceTree = "<group>"; };
 		C5CC35832104BE5700892E44 /* Services.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Services.swift; sourceTree = "<group>"; };
@@ -146,6 +142,7 @@
 		C509A1F520F9D32A00D4BE87 /* iOSAssignment-B */ = {
 			isa = PBXGroup;
 			children = (
+				C5CC35852107B70D00892E44 /* Comman */,
 				C56D7D5820FC512000EC5286 /* Model */,
 				C56D7D4620FC151500EC5286 /* Utilities */,
 				C56D7D3720F9F9D000EC5286 /* CustomCollectionViewCell.swift */,
@@ -154,7 +151,6 @@
 				C509A1FD20F9D32A00D4BE87 /* Assets.xcassets */,
 				C509A1FF20F9D32A00D4BE87 /* LaunchScreen.storyboard */,
 				C509A20220F9D32A00D4BE87 /* Info.plist */,
-				C5CC35832104BE5700892E44 /* Services.swift */,
 			);
 			path = "iOSAssignment-B";
 			sourceTree = "<group>";
@@ -162,8 +158,6 @@
 		C509A20A20F9D32A00D4BE87 /* iOSAssignment-BTests */ = {
 			isa = PBXGroup;
 			children = (
-				C56D7D5B20FC512E00EC5286 /* Model */,
-				C56D7D5320FC46C900EC5286 /* JsonContent.json */,
 				C56D7D5120FC46C900EC5286 /* Utilities */,
 				C509A20B20F9D32A00D4BE87 /* iOSAssignment_BTests.swift */,
 				C509A20D20F9D32A00D4BE87 /* Info.plist */,
@@ -198,14 +192,6 @@
 			path = Model;
 			sourceTree = "<group>";
 		};
-		C56D7D5B20FC512E00EC5286 /* Model */ = {
-			isa = PBXGroup;
-			children = (
-				C56D7D5C20FC512E00EC5286 /* JsonContentModel.swift */,
-			);
-			path = Model;
-			sourceTree = "<group>";
-		};
 		C56D7D6F20FC536A00EC5286 /* iOSAssignment-BUITests */ = {
 			isa = PBXGroup;
 			children = (
@@ -220,6 +206,14 @@
 			children = (
 			);
 			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		C5CC35852107B70D00892E44 /* Comman */ = {
+			isa = PBXGroup;
+			children = (
+				C5CC35832104BE5700892E44 /* Services.swift */,
+			);
+			path = Comman;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -340,7 +334,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				C56D7D7220FC536A00EC5286 /* Info.plist in Resources */,
-				C56D7D5620FC46C900EC5286 /* JsonContent.json in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -376,7 +369,6 @@
 				C509A20C20F9D32A00D4BE87 /* iOSAssignment_BTests.swift in Sources */,
 				C56D7D7320FC536A00EC5286 /* iOSAssignment_BUITests.swift in Sources */,
 				C56D7D5020FC454B00EC5286 /* MainCollectionViewControllerTest.swift in Sources */,
-				C56D7D5D20FC512E00EC5286 /* JsonContentModel.swift in Sources */,
 				C56D7D5520FC46C900EC5286 /* Constants.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

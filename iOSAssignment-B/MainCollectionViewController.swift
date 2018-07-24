@@ -16,9 +16,13 @@ class MainCollectionViewController: UICollectionViewController {
     fileprivate let sectionInsets = UIEdgeInsets(top: 0.0, left: 0.0, bottom: 0.0, right: 0.0)
     var contentData = [JsonContentModel]()
     var inValidImagePresent = false as Bool
+    var cache:NSCache<AnyObject, AnyObject>! // Defined cache to store and display images even in offline mode
+    
+    
     //MARK: - OVERRIDE VIEWDIDLOAD
     override func viewDidLoad() {
         super.viewDidLoad()
+        self.cache = NSCache()
         collectionView?.refreshControl = refreshCollectionController
         collectionView?.backgroundColor = UIColor.gray
         collectionView?.register(CustomCollectionViewCell.self, forCellWithReuseIdentifier:Constants.collectionViewReusableCellId)
@@ -60,7 +64,9 @@ class MainCollectionViewController: UICollectionViewController {
     }
     // MARK: - DOWNLOAD REQUIRE IMAGES
     func getImageData(parameters: String, completionHandler: @escaping (Data?, NSError?) -> ()) {
+        if (Reachability.isConnectedToNetwork()){
         Services.getImagesDownloaded(parameters,completionHandler: completionHandler)
+        }
     }
     //MARK: -  RETRIEVE DATA AND CONTENT PARSING
     func fetchTheContentDetail() {
@@ -71,6 +77,7 @@ class MainCollectionViewController: UICollectionViewController {
                         let jsonContent =  JSON.init(parseJSON: response!)
                         let topicTitle = jsonContent[Constants.titleKey]
                         self.contentData.removeAll()
+                        self.cache.removeAllObjects()
                         self.inValidImagePresent = false;
                         for itemContent in jsonContent[Constants.rowsContentKey].arrayValue{
                             let item = JsonContentModel.init(json: itemContent) as JsonContentModel!
@@ -107,21 +114,27 @@ extension MainCollectionViewController
         collectionCell.itemName.text =  contentData[indexPath.row].title
         collectionCell.itemDescription.text = contentData[indexPath.row].description
         collectionCell.thumbNailImageView.image = #imageLiteral(resourceName: "PlaceHolder")
+        if (self.cache.object(forKey: (indexPath as NSIndexPath).row as AnyObject) == nil){
         if(Services.isValidUrl(urlString: contentData[indexPath.row].imageHref)){
-            getImageData(parameters: contentData[indexPath.row].imageHref) { responseObject, error in
-                if((responseObject) != nil){
-                    collectionCell.thumbNailImageView.image = UIImage(data: responseObject!)
-                    if(collectionCell.thumbNailImageView.image == nil){
-                        collectionCell.thumbNailImageView.image = #imageLiteral(resourceName: "PlaceHolder")
-                    }
+            getImageData(parameters: contentData[indexPath.row].imageHref){ responseObject, error in
+                DispatchQueue.main.async {
+                    if let collectionCellUpdate = collectionView.cellForItem(at: indexPath) as? CustomCollectionViewCell {
+                    let thumbnailImage:UIImage! = responseObject != nil ? UIImage(data: responseObject!) : #imageLiteral(resourceName: "PlaceHolder")
+                    collectionCellUpdate.thumbNailImageView.image = thumbnailImage != nil ? thumbnailImage : #imageLiteral(resourceName: "PlaceHolder")
+                    self.cache.setObject(collectionCellUpdate.thumbNailImageView.image!, forKey: (indexPath as NSIndexPath).row as AnyObject)
+                }
+                }
                 }
             }
-        }else{
+        else{
             if(!self.inValidImagePresent){
                 self.showAlertDialog(Constants.imageInvalidUrlMessageTitle, message: Constants.imageInvalidUrlMessage)
                 self.inValidImagePresent = true
             }
         }
+    }else{
+            collectionCell.thumbNailImageView.image = self.cache.object(forKey: (indexPath as NSIndexPath).row as AnyObject) as? UIImage
+            }
         return collectionCell
     }
     
